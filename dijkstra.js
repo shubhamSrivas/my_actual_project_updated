@@ -48,8 +48,13 @@ tiles[tileColumn-1][tileRow-1].state= 'f';    //f for finish
 
 start = tiles[0][0]
 end = tiles[tileColumn-1][tileRow-1]
-
-
+function removed_element(set,min_tile){
+   var index = set.indexOf(min_tile);
+   if (index > -1) {
+    set.splice(index, 1);
+}
+   
+}
 function solveMaze()
 {
 
@@ -66,7 +71,9 @@ function solveMaze()
       }
   }
   while(!set.empty()){
+      
       let min_tile = min_dist_tile()
+      removed_element(set,min_tile)
       let cur = min_tile
       let neighbors= this.getNeighbors(cur)
       neighbors.forEach(element => {
