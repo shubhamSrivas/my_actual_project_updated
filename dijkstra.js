@@ -21,11 +21,6 @@ for (c=0; c < tileColumn; c++){
         tiles[c][r]= new spot(c,r)
     }
 }
-for (c=0; c < tileColumn; c++){
-    for(r=0; r < tileRow; r++){
-        tiles[c][r].getNeighbors(grid)
-    }
-}
 function spot(c,r){
     this.x = c*(tileW+3)
     this.y = r*(tileH+3)
@@ -36,24 +31,30 @@ function spot(c,r){
     this.f=0
     this.h=0
     this.neighbors=[]
-    this.getNeighbors = function(grid){
+    this.getNeighbors = function(tiles){
 
         var c=this.c
         var r= this.r
         if(c >0){
-            this.neighbors.push(grid[c-1][r])
+            this.neighbors.push(tiles[c-1][r])
         }
        if(c < tileColumn-1){
-        this.neighbors.push(grid[c+1][r])
+        this.neighbors.push(tiles[c+1][r])
        }if(r > 0){
-        this.neighbors.push(grid[c][r-1])
+        this.neighbors.push(tiles[c][r-1])
        }if(r < tileRow-1){
-        this.neighbors.push(grid[c][r+1])
+        this.neighbors.push(tiles[c][r+1])
        }
        return this.neighbors;
     }
     
 }
+for (c=0; c < tileColumn; c++){
+    for(r=0; r < tileRow; r++){
+        tiles[c][r].getNeighbors(tiles)
+    }
+}
+
 tiles[0][0].state= 's';  //s for start
 tiles[tileColumn-1][tileRow-1].state= 'f';    //f for finish
 
