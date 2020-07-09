@@ -261,7 +261,7 @@ function find_path(prev,distance,end){
       return path
   }
   for(at = end;at !=undefined;at = prev[at] ){
-      path.add(at)
+      path.push(at)
   }
   path.reverse()
   for(var i=0;i<path.length;i++){
