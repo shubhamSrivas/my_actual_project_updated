@@ -9,6 +9,9 @@ tileH=20;
 
 tileRow= 20;
 tileColumn= 50;
+
+boundX=0
+boundY=0
 let set =[]
 let distance =[]
 let prev =[]
@@ -27,31 +30,31 @@ function spot(c,r){
     this.c=c
     this.r =r
     this.state = 'e'
-    this.g=0
-    this.f=0
-    this.h=0
+    this.g=0  
+    //this.f=0  no need
+    //this.h=0    no need
     this.neighbors=[]
-    this.getNeighbors = function(tiles){
+    this.addNeighbors = function(tiles){
 
         var c=this.c
         var r= this.r
-        if(c >0){
+        if(c >0 && tiles[c-1][r].state != 'w'){
             this.neighbors.push(tiles[c-1][r])
         }
-       if(c < tileColumn-1){
+       if(c < tileColumn-1   && tiles[c+1][r].state != 'w'){
         this.neighbors.push(tiles[c+1][r])
-       }if(r > 0){
+       }if(r > 0  && tiles[c][r-1].state != 'w'){
         this.neighbors.push(tiles[c][r-1])
-       }if(r < tileRow-1){
+       }if(r < tileRow-1  && tiles[c][r+1].state != 'w'){
         this.neighbors.push(tiles[c][r+1])
        }
-       return this.neighbors;
+       
     }
     
 }
 for (c=0; c < tileColumn; c++){
     for(r=0; r < tileRow; r++){
-        tiles[c][r].getNeighbors(tiles)
+        tiles[c][r].addNeighbors(tiles)
     }
 }
 
@@ -207,37 +210,63 @@ function solveMaze()
 
       }
   }
-  while(!set.empty()){
+  while(set.length >0 ){
       
       let min_tile = min_dist_tile()
        removed_element(set,min_tile)
       let cur = min_tile
-      let neighbors= []
-      neighbors = this.neighbors
-      neighbors = this.getNeighbors(cur)
+      let neighbors= cur.neighbors
+      for(var i=0;i<neighbors.length;i++){
+          var neighbor = neighbors[i]
+          neighbor.g = cur.g +1
+      }
+      
       neighbors.forEach(element => {
-         let alt = distance[cur] + heuristic(cur,element)
+         let alt = cur.g + heuristic(element,end)
          if(alt < distance[element]){
              distance[element] = alt
-             pre[element]= cur
+             prev[element]= cur
              set.push(element)
                
          }
       })
 }
-
+  find_path(prev,distance,end)
 }
+
+function  heuristic(cur,element){
+    var dx = abs(cur.c - element.c)
+    var dy=  abs(cur.r- element.r)
+    return (dx + dy) 
+}
+                           
+//doubt in this function
+var min = Infinity
 function min_dist_tile(){
-  var min = Infinity
+  var min_tile
     set.forEach(element =>{
       if(set[element].g  < min){
           min = set[element].g
           min_tile = set[element]
-          min_tile.g = min
+          
       }
     })
-    return min
+    return min_tile
 
+}
+
+function find_path(prev,distance,end){
+    var path =[]
+  if(distance[end] == Infinity){
+      return path
+  }
+  for(at = end;at !=undefined;at = prev[at] ){
+      path.add(at)
+  }
+  path.reverse()
+  for(var i=0;i<path.length;i++){
+      path.state='x'
+  }
 }
 
 
