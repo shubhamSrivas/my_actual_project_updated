@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solve a Maze!</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+    <div class="title-container">
+        <div class="help">
+            <input class="helpbtn" type="button" onclick="display_alert()" value="Need Help?" />
+        </div>
+       
+        <h1 class="title">PathFinder</h1>
+        
+        <div class="key">
+            <p>Start:</p><img class="kstart"  alt=""><p>Goal:</p><img class="kgoal"  alt=""><p>Block:</p><div class="kblock"></div><p>Visited:</p><div class="kvisited"></div><p>Path:</p><div class="kpath"></div>
+        </div>
+    </div>
+    <div>
+        <canvas id="myCanvas"  width="1250" height="490"></canvas>
+        <br>
+        <p  style ="text-align: center;" id="outcome"></p>
+        <div>
+            
+            <button  class ="start-btn1"  onclick="solveMaze()">SOLVE for 1</button>
+            <button  class ="gen"  onclick="random_obstacles()">Generator</button>
+            
+            <button  class ="reset-btn" onclick="reset()">RESET</button>
+            
+        </div>
+        
+        
+    </div>
+    
+    <script src="bfs.js"></script>
+   
+</body>
+</html>
+    
+
+
+
+
+
