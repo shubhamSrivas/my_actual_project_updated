@@ -34,13 +34,14 @@ function spot(c,r){
         if(cur.c >0){
             neighbors.push(grid[c-1][r])
         }
-       if(cur.x < tileColumn-1){
+       if(cur.c < tileColumn-1){
         neighbors.push(grid[c+1][r])
-       }if(cur.y > 0){
+       }if(cur.r > 0){
         neighbors.push(grid[c][r-1])
-       }if(cur.y < tileRow-1){
-        neighbors.push(grid[c][r+1 ])
+       }if(cur.r < tileRow-1){
+        neighbors.push(grid[c][r+1])
        }
+        return neighbors;
     }
 }
 tiles[0][0].state= 's';  //s for start
@@ -75,7 +76,8 @@ function solveMaze()
       let min_tile = min_dist_tile()
       removed_element(set,min_tile)
       let cur = min_tile
-      let neighbors= this.getNeighbors(cur)
+      let neighbors = [] 
+      neighbors  = this.getNeighbors(cur)
       neighbors.forEach(element => {
          let alt = distance[cur] + heuristic(cur,element)
          if(alt < distance[element]){
