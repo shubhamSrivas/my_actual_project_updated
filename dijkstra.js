@@ -21,6 +21,11 @@ for (c=0; c < tileColumn; c++){
         tiles[c][r]= new spot(c,r)
     }
 }
+for (c=0; c < tileColumn; c++){
+    for(r=0; r < tileRow; r++){
+        tiles[c][r].getNeighbors(grid)
+    }
+}
 function spot(c,r){
     this.x = c*(tileW+3)
     this.y = r*(tileH+3)
@@ -31,18 +36,21 @@ function spot(c,r){
     this.f=0
     this.h=0
     this.neighbors=[]
-    this.getNeighbors = function(cur){
-        if(cur.c >0){
-            neighbors.push(grid[c-1][r])
+    this.getNeighbors = function(grid){
+
+        var c=this.c
+        var r= this.r
+        if(c >0){
+            this.neighbors.push(grid[c-1][r])
         }
-       if(cur.x < tileColumn-1){
-        neighbors.push(grid[c+1][r])
-       }if(cur.y > 0){
-        neighbors.push(grid[c][r-1])
-       }if(cur.y < tileRow-1){
-        neighbors.push(grid[c][r+1 ])
+       if(c < tileColumn-1){
+        this.neighbors.push(grid[c+1][r])
+       }if(r > 0){
+        this.neighbors.push(grid[c][r-1])
+       }if(r < tileRow-1){
+        this.neighbors.push(grid[c][r+1])
        }
-       return neighbors;
+       return this.neighbors;
     }
     
 }
@@ -204,6 +212,7 @@ function solveMaze()
        removed_element(set,min_tile)
       let cur = min_tile
       let neighbors= []
+      neighbors = this.neighbors
       neighbors = this.getNeighbors(cur)
       neighbors.forEach(element => {
          let alt = distance[cur] + heuristic(cur,element)
